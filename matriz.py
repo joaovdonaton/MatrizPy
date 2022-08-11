@@ -60,7 +60,7 @@ class Matriz:
         Multiplicar a matriz self pela matriz2.
         """
         if self.num_colunas != matriz2.num_linhas:
-            raise MatrizIncompativel(self, matriz2)
+            raise MatrizIncompativel(self, matriz2, 0)
 
         m = Matriz(self.num_linhas, matriz2.num_colunas)
         for i in range(m.num_linhas):
@@ -71,4 +71,32 @@ class Matriz:
                 m.set_element(i, j, soma)
 
         return m
+
+    def __add__(self, matriz2):
+        """
+        Adicionar a matriz self à matriz2
+        """
+
+        if self.num_linhas != matriz2.num_linhas and self.num_colunas != matriz2.num_colunas:
+            raise MatrizIncompativel(self, matriz2, 1)
+
+        m = Matriz(self.num_linhas, self.num_colunas)
+        for i in range(self.num_linhas):
+            for j in range(self.num_colunas):
+                m.set_element(i, j, self.get_element(i, j) + matriz2.get_element(i, j))
+
+        return m
+
+    @staticmethod
+    def operar_com(m, cb):
+        """
+        Aplica a operação do parâmetro cb (função callback) em todos os elementos da matriz m
+        """
+
+        m_novo = Matriz(m.num_linhas, m.num_colunas)
+        for i in range(m.num_linhas):
+            for j in range(m.num_colunas):
+                m_novo.set_element(i, j, cb(m.get_element(i, j)))
+
+        return m_novo
 
