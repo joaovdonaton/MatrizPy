@@ -11,7 +11,7 @@ class MatrizIncompativel(Exception):
     def __str__(self):
         if self.msg == 0:  # multiplicação inválida
             return f"""Não é possível multiplicar uma matriz de tamanho {self.m1} por 
-                   f"uma de tamanho {self.m2}"""
+                   uma de tamanho {self.m2}"""
         elif self.msg == 1:  # operação inválida
             return f"""Não é possível fazer esta operação com duas matrizes de tamanhos diferentes 
             {self.m1} por {self.m2}"""

@@ -8,18 +8,12 @@ applicar uma certa operação em todos os elementos da matriz (pode ser passando
 converter matriz em string - FEITO
 printar matriz formatada - FEITO
 inserir linhas - FEITO
-inserir colunas -
+inserir colunas - FEITO
 set e get para elementos - FEITO
 achar uma sub matriz -
 transpor matriz - FEITO
 https://dev.to/fkkarakurt/matrices-and-vectors-in-game-development-67h#:~:text=A%20matrix%20can%20be%20used,Y%2C%20and%20Z%20positional%20information.
 função para mostrar o uso de memória de uma matriz - FEITO
-https://towardsdatascience.com/the-strange-size-of-python-objects-in-memory-ce87bdfbb97f#:~:text=When%20you%20create%20a%20list,of%20references%20to%20other%20objects.
-https://towardsdatascience.com/python-memory-and-objects-e7bec4a2845
-https://towardsdatascience.com/how-to-define-custom-exception-classes-in-python-bfa346629bca
-https://dev.to/fkkarakurt/matrices-and-vectors-in-game-development-67h#:~:text=A%20matrix%20can%20be%20used,Y%2C%20and%20Z%20positional%20information.
-https://realpython.com/python3-object-oriented-programming/#define-a-class-in-python
-https://www.programiz.com/python-programming/operator-overloading
 
 """
 from random import random
@@ -51,11 +45,11 @@ class Matriz:
 
         return s
 
-    def set_element(self, lin, col, val):
-        self.matriz[lin][col] = val
+    def set_element(self, linha, coluna, val):
+        self.matriz[linha][coluna] = val
 
-    def get_element(self, lin, col):
-        return self.matriz[lin][col]
+    def get_element(self, linha, coluna):
+        return self.matriz[linha][coluna]
 
     def inserir_linha(self, pos, m_linha):
         """
@@ -67,23 +61,25 @@ class Matriz:
 
         m = Matriz(self.num_linhas + 1, self.num_colunas)
         m.matriz = self.matriz.copy()
-        m.matriz.insert(pos, m_linha)
-
-        # s = False
-        # for i in range(self.num_linhas + 1):
-        #     if i == pos:
-        #         s = True
-        #         for j in range(self.num_colunas):
-        #             m.set_element(i, j, m_linha.get_element(0, j))
-        #         continue
-        #     for j in range(self.num_colunas):
-        #         x, y = (i, j) if not s else (i - 1, j - 1)
-        #         m.set_element(i, j, self.get_element(x, y))
+        m.matriz.insert(pos, m_linha.matriz[0])
 
         return m
 
     def inserir_coluna(self, pos, m_coluna):
-        pass
+        """
+        Inserir a matriz m_coluna (tamanho self.num_linhasx1) na matriz self
+        """
+
+        if m_coluna.num_linhas != self.num_linhas or m_coluna.num_colunas != 1 or pos > self.num_colunas:
+            raise MatrizIncompativel(self, m_coluna, 2, pos=pos)
+
+        m = Matriz(self.num_linhas, self.num_colunas+1)
+        m.matriz = self.matriz.copy()
+
+        for i in range(m.num_linhas):
+            m.matriz[i].insert(pos, m_coluna.get_element(i, 0))
+
+        return m
 
     def __mul__(self, matriz2):
         """
@@ -97,12 +93,12 @@ class Matriz:
             for j in range(m.num_colunas):
                 soma = 0
                 for k in range(self.num_colunas):
-                    soma += self.get_element(i, k) * matriz2.get_element(k, i)
+                    soma += self.get_element(i, k) * matriz2.get_element(k, j)
                 m.set_element(i, j, soma)
 
         return m
 
-    def __operacao_elementwise(self, matriz2, operacao):
+    def operacao_elementwise(self, matriz2, operacao):
         """
         Método base para as diferentes operações elementwise
         """
@@ -122,14 +118,14 @@ class Matriz:
         Adicionar a matriz self à matriz2
         """
 
-        return self.__operacao_elementwise(matriz2, '+')
+        return self.operacao_elementwise(matriz2, '+')
 
     def __sub__(self, matriz2):
         """
         Subtrair a matriz self pela matriz2
         """
 
-        return self.__operacao_elementwise(matriz2, '-')
+        return self.operacao_elementwise(matriz2, '-')
 
     @staticmethod
     def operar_com(m, cb):
@@ -150,7 +146,9 @@ class Matriz:
         Método para calcular o tamanho na memória da nossa matriz (que é a lista contida no membro self.matriz)
         O object de uma lista vazia no python usa 56bytes, para cada elemento que adicionamos isso aumenta em 8bytes.
         As listas armazenam referências aos seus itens e não os itens em sí.
-        Otimização de memoria do python (interning) para integers entre [-5,256] pode atrapalhar o nosso cálculo
+        Otimização de memoria do python (interning) para integers entre [-5,256] pode atrapalhar o nosso cálculo, por
+        isso temos que ter uma list "ids" para rastrear quais endereços de memórias se encaixam no interning e não
+        contá-los mais de uma vez
         """
 
         ids = []
