@@ -1,19 +1,19 @@
 """
 classe para criar matrizes de tamanho MXN
 métodos:
-multiplicar matrizes
-adicionar matrizes
-subtrair matrizes
-applicar uma certa operação em todos os elementos da matriz (pode ser passando uma função lambda)
-converter matriz em string
-printar matriz formatada
-inserir linhas
-inserir colunas
-set e get para elementos
-achar uma sub matriz
-transpor matriz
+multiplicar matrizes - FEITO
+adicionar matrizes - FEITO
+subtrair matrizes - FEITO
+applicar uma certa operação em todos os elementos da matriz (pode ser passando uma função lambda) - FEITO
+converter matriz em string - FEITO
+printar matriz formatada - FEITO
+inserir linhas - FEITO
+inserir colunas -
+set e get para elementos - FEITO
+achar uma sub matriz -
+transpor matriz - FEITO
 https://dev.to/fkkarakurt/matrices-and-vectors-in-game-development-67h#:~:text=A%20matrix%20can%20be%20used,Y%2C%20and%20Z%20positional%20information.
-função para mostrar o uso de memória de uma matriz
+função para mostrar o uso de memória de uma matriz - FEITO
 https://towardsdatascience.com/the-strange-size-of-python-objects-in-memory-ce87bdfbb97f#:~:text=When%20you%20create%20a%20list,of%20references%20to%20other%20objects.
 https://towardsdatascience.com/python-memory-and-objects-e7bec4a2845
 https://towardsdatascience.com/how-to-define-custom-exception-classes-in-python-bfa346629bca
@@ -162,3 +162,17 @@ class Matriz:
                 ids.append(id(m.matriz[i][j]))
 
         return tam_total
+
+    @staticmethod
+    def transpor(m):
+        """
+        Transpor a matriz m
+        """
+
+        m_novo = Matriz(m.num_colunas, m.num_linhas)
+
+        for i in range(m.num_linhas):
+            for j in range(m.num_colunas):
+                m_novo.set_element(j, i, m.get_element(i, j))
+
+        return m_novo
