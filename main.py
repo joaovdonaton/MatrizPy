@@ -3,15 +3,15 @@ import math
 import random
 
 m1 = Matriz(3, 7, val=812)
-m2 = Matriz(3, 3, val_randomico=True)
+m2 = Matriz(1, 7, val_randomico=True)
 
 m2 = Matriz.operar_com(m2, lambda x: random.randint(-5, 5))
 
 print(str(m2))
 print(str(Matriz.tamanho_na_memoria(m2)), 'bytes\n')
-print(str(Matriz.transpor(m2)))
+#print(str(Matriz.transpor(m2))
 
-#print(str(m1.inserir_linha(321398, m2)))
+print(m1.inserir_linha(1, m2))
 
 def crazy_callback(x):
     x = math.e*x

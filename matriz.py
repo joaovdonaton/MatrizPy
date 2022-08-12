@@ -66,17 +66,19 @@ class Matriz:
             raise MatrizIncompativel(self, m_linha, 2, pos=pos)
 
         m = Matriz(self.num_linhas + 1, self.num_colunas)
+        m.matriz = self.matriz.copy()
+        m.matriz.insert(pos, m_linha)
 
-        s = False
-        for i in range(self.num_linhas + 1):
-            if i == pos:
-                s = True
-                for j in range(self.num_colunas):
-                    m.set_element(i, j, m_linha.get_element(0, j))
-                continue
-            for j in range(self.num_colunas):
-                x, y = (i, j) if not s else (i - 1, j - 1)
-                m.set_element(i, j, self.get_element(x, y))
+        # s = False
+        # for i in range(self.num_linhas + 1):
+        #     if i == pos:
+        #         s = True
+        #         for j in range(self.num_colunas):
+        #             m.set_element(i, j, m_linha.get_element(0, j))
+        #         continue
+        #     for j in range(self.num_colunas):
+        #         x, y = (i, j) if not s else (i - 1, j - 1)
+        #         m.set_element(i, j, self.get_element(x, y))
 
         return m
 
