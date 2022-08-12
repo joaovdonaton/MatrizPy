@@ -17,7 +17,7 @@ função para mostrar o uso de memória de uma matriz - FEITO
 
 """
 from random import random
-from utilidade import MatrizIncompativel
+from utilidade import MatrizIncompativel, EixoInvalido
 from sys import getsizeof
 
 
@@ -176,3 +176,42 @@ class Matriz:
                 m_novo.set_element(j, i, m.get_element(i, j))
 
         return m_novo
+
+    @staticmethod
+    def soma(m, eixo):
+        """
+        Fazer uma soma dos elementos da matrix ao longo de um certo eixo
+        eixo = 0 (soma as linhas, retorna uma coluna), eixo = 1 (soma as colunas, retorna uma linha),
+        eixo = 2 soma tudo (retorna matriz 1x1)
+        """
+
+        if eixo not in [0, 1, 2]:
+            raise EixoInvalido(eixo)
+
+        if eixo == 0:
+            m_novo = Matriz(m.num_linhas, 1)
+            for i in range(m.num_linhas):
+                m_novo.set_element(i, 0, sum(m.matriz[i]))
+
+            return m_novo
+
+        elif eixo == 1:
+            m_novo = Matriz(1, m.num_colunas)
+            for i in range(m.num_colunas):
+                s = 0
+                for j in range(m.num_linhas):
+                    s += m.get_element(j, i)
+
+                m_novo.set_element(0, i, s)
+
+            return m_novo
+
+        elif eixo == 2:
+            m_novo = Matriz(1, 1)
+            s = 0
+            for i in range(m.num_linhas):
+                s += sum(m.matriz[i])
+
+            m_novo.set_element(0, 0, s)
+
+            return m_novo

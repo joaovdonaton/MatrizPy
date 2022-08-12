@@ -19,3 +19,11 @@ class MatrizIncompativel(Exception):
             return f"""Não é possível inserir esta linha/coluna ({self.m2}) na posição {self.pos} matriz de tamanho {self.m1}.
             A quantidade de colunas/linhas da linha/coluna deve ser igual à da matriz.
             Pos não pode ser maior que o tamanho de linhas/colunas da matriz"""
+
+
+class EixoInvalido(Exception):
+    def __init__(self, eixo):
+        self.eixo = eixo
+
+    def __str__(self):
+        return f"O eixo {self.eixo} não representa um eixo válido."

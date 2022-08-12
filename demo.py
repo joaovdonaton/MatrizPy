@@ -25,3 +25,8 @@ print(Matriz.operar_com(m, lambda x: math.sqrt(x)))
 
 # método para calcular o tamanho da lista que representa a matriz na memória.
 print(Matriz.tamanho_na_memoria(m), 'bytes')
+
+# método para somar ao longo de um eixo da matriz
+print(Matriz.soma(m3, 0))  # soma ao longo das linhas
+print(Matriz.soma(m3, 1))  # soma ao longo das colunas
+print(Matriz.soma(m3, 2))  # soma todos os elementos
