@@ -24,6 +24,7 @@ https://www.programiz.com/python-programming/operator-overloading
 """
 from random import random
 from utilidade import MatrizIncompativel
+from sys import getsizeof
 
 
 class Matriz:
@@ -64,17 +65,17 @@ class Matriz:
         if m_linha.num_colunas != self.num_colunas or m_linha.num_linhas != 1 or pos > self.num_linhas:
             raise MatrizIncompativel(self, m_linha, 2, pos=pos)
 
-        m = Matriz(self.num_linhas+1, self.num_colunas)
+        m = Matriz(self.num_linhas + 1, self.num_colunas)
 
         s = False
-        for i in range(self.num_linhas+1):
+        for i in range(self.num_linhas + 1):
             if i == pos:
                 s = True
                 for j in range(self.num_colunas):
                     m.set_element(i, j, m_linha.get_element(0, j))
                 continue
             for j in range(self.num_colunas):
-                x, y = (i, j) if not s else (i-1, j-1)
+                x, y = (i, j) if not s else (i - 1, j - 1)
                 m.set_element(i, j, self.get_element(x, y))
 
         return m
@@ -94,7 +95,7 @@ class Matriz:
             for j in range(m.num_colunas):
                 soma = 0
                 for k in range(self.num_colunas):
-                    soma += self.get_element(i, k)*matriz2.get_element(k, i)
+                    soma += self.get_element(i, k) * matriz2.get_element(k, i)
                 m.set_element(i, j, soma)
 
         return m
@@ -142,10 +143,22 @@ class Matriz:
         return m_novo
 
     @staticmethod
-    def tamanho_na_memoria():
+    def tamanho_na_memoria(m):
         """
         Método para calcular o tamanho na memória da nossa matriz (que é a lista contida no membro self.matriz)
+        O object de uma lista vazia no python usa 56bytes, para cada elemento que adicionamos isso aumenta em 8bytes.
+        As listas armazenam referências aos seus itens e não os itens em sí.
+        Otimização de memoria do python (interning) para integers entre [-5,256] pode atrapalhar o nosso cálculo
         """
 
+        ids = []
+        tam_total = getsizeof([])
+        for i in range(m.num_linhas):
+            tam_total += 8
+            for j in range(m.num_colunas):
+                if id(m.matriz[i][j]) in ids:
+                    continue
+                tam_total += 8
+                ids.append(id(m.matriz[i][j]))
 
-
+        return tam_total
