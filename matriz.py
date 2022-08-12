@@ -1,23 +1,5 @@
-"""
-classe para criar matrizes de tamanho MXN
-métodos:
-multiplicar matrizes - FEITO
-adicionar matrizes - FEITO
-subtrair matrizes - FEITO
-applicar uma certa operação em todos os elementos da matriz (pode ser passando uma função lambda) - FEITO
-converter matriz em string - FEITO
-printar matriz formatada - FEITO
-inserir linhas - FEITO
-inserir colunas - FEITO
-set e get para elementos - FEITO
-achar uma sub matriz -
-transpor matriz - FEITO
-https://dev.to/fkkarakurt/matrices-and-vectors-in-game-development-67h#:~:text=A%20matrix%20can%20be%20used,Y%2C%20and%20Z%20positional%20information.
-função para mostrar o uso de memória de uma matriz - FEITO
-
-"""
 from random import random
-from utilidade import MatrizIncompativel, EixoInvalido
+from erros import MatrizIncompativel, EixoInvalido
 from sys import getsizeof
 
 

@@ -1,32 +1,40 @@
 from matriz import Matriz
 import math
 
-m = Matriz(7, 7, val=3)  # criar uma matriz 7x7 com valor inicial de 3
-m2 = Matriz(1, 7, val_randomico=True)  # criar uma matriz 1x7 com valores inicias randômicos de 1x7
+print("Podemos criar uma matriz 7x7 com valor inicial 3")
+m = Matriz(7, 7, val=3)
+print(m)
 
-print(m)  # podemos converter a nossa matriz em uma string e printar
+print("Matriz 7x9 com valor inicial de 9")
+m3 = Matriz(7, 3, 9)
+print(m3)
 
-# podemos alterar e acessar os elementos da matriz individualmente
+print("Podemos também criar uma matriz 1x7 com valores iniciais aleatório entre 0-1")
+m2 = Matriz(1, 7, val_randomico=True)
+print(m2)
+
+print("Podemos acessar e alterar elementos individualmente")
 m.set_element(1, 2, 55)
 print(m.get_element(1, 2))
 
-# podemos inserir linhas/colunas na matriz
+print("Também é possível inserir linhas e colunas")
 print(m.inserir_linha(4, m2))
 
-# também é possível usar operadores como *, +, - entre matrizes
-m3 = Matriz(7, 3, 9)
-print(m*m3)  # multiplicação de matrizes
-print(m+m)  # adição
-print(m-m)  # subtração
+print("O uso de operadores como *, - e + entre matrizes")
+print(m*m3)
+print(m+m)
+print(m-m)
+
+print("Também é possível utilizar o método operacao_elementwise para realizar operacacoes elementwise")
 print(m.operacao_elementwise(m, '*'))  # também podemos realizar operações element wise
 
-# podemos usar o método operar_com para passar um callback que será aplicado a todos os elementos da matriz
+print('podemos usar o método operar_com para passar um callback que será aplicado a todos os elementos da matriz')
 print(Matriz.operar_com(m, lambda x: math.sqrt(x)))
 
-# método para calcular o tamanho da lista que representa a matriz na memória.
+print('método para calcular o tamanho da lista que representa a matriz na memória.')
 print(Matriz.tamanho_na_memoria(m), 'bytes')
 
-# método para somar ao longo de um eixo da matriz
+print("com o método soma, também é possível somar ao longo de um certo eixo da matriz, ou somar todos os elementos")
 print(Matriz.soma(m3, 0))  # soma ao longo das linhas
 print(Matriz.soma(m3, 1))  # soma ao longo das colunas
 print(Matriz.soma(m3, 2))  # soma todos os elementos
