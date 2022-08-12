@@ -15,6 +15,7 @@ transpor matriz
 https://dev.to/fkkarakurt/matrices-and-vectors-in-game-development-67h#:~:text=A%20matrix%20can%20be%20used,Y%2C%20and%20Z%20positional%20information.
 função para mostrar o uso de memória de uma matriz
 https://towardsdatascience.com/the-strange-size-of-python-objects-in-memory-ce87bdfbb97f#:~:text=When%20you%20create%20a%20list,of%20references%20to%20other%20objects.
+https://towardsdatascience.com/python-memory-and-objects-e7bec4a2845
 https://towardsdatascience.com/how-to-define-custom-exception-classes-in-python-bfa346629bca
 https://dev.to/fkkarakurt/matrices-and-vectors-in-game-development-67h#:~:text=A%20matrix%20can%20be%20used,Y%2C%20and%20Z%20positional%20information.
 https://realpython.com/python3-object-oriented-programming/#define-a-class-in-python
@@ -55,6 +56,32 @@ class Matriz:
     def get_element(self, lin, col):
         return self.matriz[lin][col]
 
+    def inserir_linha(self, pos, m_linha):
+        """
+        Inserir a matriz m_linha (tamanho 1xself.num_colunas) na matriz self
+        """
+
+        if m_linha.num_colunas != self.num_colunas or m_linha.num_linhas != 1 or pos > self.num_linhas:
+            raise MatrizIncompativel(self, m_linha, 2, pos=pos)
+
+        m = Matriz(self.num_linhas+1, self.num_colunas)
+
+        s = False
+        for i in range(self.num_linhas+1):
+            if i == pos:
+                s = True
+                for j in range(self.num_colunas):
+                    m.set_element(i, j, m_linha.get_element(0, j))
+                continue
+            for j in range(self.num_colunas):
+                x, y = (i, j) if not s else (i-1, j-1)
+                m.set_element(i, j, self.get_element(x, y))
+
+        return m
+
+    def inserir_coluna(self, pos, m_coluna):
+        pass
+
     def __mul__(self, matriz2):
         """
         Multiplicar a matriz self pela matriz2.
@@ -72,20 +99,34 @@ class Matriz:
 
         return m
 
-    def __add__(self, matriz2):
+    def __operacao_elementwise(self, matriz2, operacao):
         """
-        Adicionar a matriz self à matriz2
+        Método base para as diferentes operações elementwise
         """
 
-        if self.num_linhas != matriz2.num_linhas and self.num_colunas != matriz2.num_colunas:
+        if self.num_linhas != matriz2.num_linhas or self.num_colunas != matriz2.num_colunas:
             raise MatrizIncompativel(self, matriz2, 1)
 
         m = Matriz(self.num_linhas, self.num_colunas)
         for i in range(self.num_linhas):
             for j in range(self.num_colunas):
-                m.set_element(i, j, self.get_element(i, j) + matriz2.get_element(i, j))
+                m.set_element(i, j, eval(str(self.get_element(i, j)) + operacao + str(matriz2.get_element(i, j))))
 
         return m
+
+    def __add__(self, matriz2):
+        """
+        Adicionar a matriz self à matriz2
+        """
+
+        return self.__operacao_elementwise(matriz2, '+')
+
+    def __sub__(self, matriz2):
+        """
+        Subtrair a matriz self pela matriz2
+        """
+
+        return self.__operacao_elementwise(matriz2, '-')
 
     @staticmethod
     def operar_com(m, cb):
@@ -99,4 +140,12 @@ class Matriz:
                 m_novo.set_element(i, j, cb(m.get_element(i, j)))
 
         return m_novo
+
+    @staticmethod
+    def tamanho_na_memoria():
+        """
+        Método para calcular o tamanho na memória da nossa matriz (que é a lista contida no membro self.matriz)
+        """
+
+
 
