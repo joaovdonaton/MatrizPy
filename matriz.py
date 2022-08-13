@@ -141,7 +141,8 @@ class Matriz:
                 if id(m.matriz[i][j]) in ids:
                     continue
                 tam_total += 8
-                ids.append(id(m.matriz[i][j]))
+                if -5 <= m.matriz[i][j] <= 256:
+                    ids.append(id(m.matriz[i][j]))
 
         return tam_total
 
