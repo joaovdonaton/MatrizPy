@@ -11,7 +11,6 @@ print(m2)
 
 print(Matriz.tamanho_na_memoria(m2), 'bytes\n')
 
-
 # print(str(Matriz.transpor(m2))
 
 # print(m1.inserir_linha(0, m2))
