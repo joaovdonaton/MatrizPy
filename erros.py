@@ -37,3 +37,15 @@ class PosicaoInvalida(Exception):
 
     def __str__(self):
         return f"O índice de posição ({self.pos}) deve ser menor que ou igual a {self.pos_max} na matriz de tamanho {self.m}"
+
+
+class ListaInvalida(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        if self.msg == 0:
+            return 'Falha na conversão da lista para Matriz. Alguma das linhas não é uma lista.'
+        elif self.msg == 1:
+            return 'Falha na conversão da lista para Matriz. O Número de colunas deve ser igual em todas as linhas.'
+

@@ -1,5 +1,5 @@
 from random import random
-from erros import MatrizIncompativel, EixoInvalido, PosicaoInvalida
+from erros import MatrizIncompativel, EixoInvalido, PosicaoInvalida, ListaInvalida
 from sys import getsizeof
 from copy import deepcopy
 
@@ -233,4 +233,21 @@ class Matriz:
 
     @staticmethod
     def converter_para_matriz(lista):
-        pass
+        """
+        converter a lista do parâmetro para uma matriz, a lista deve ser 2D
+        """
+
+        n_linhas, n_colunas = len(lista), len(lista[0])
+        for i in range(n_linhas):
+            if not isinstance(lista[i], list):
+                raise ListaInvalida(0)
+            elif len(lista[i]) != n_colunas:
+                raise ListaInvalida(1)
+
+        m = Matriz(n_linhas, n_colunas)
+
+        for i in range(n_linhas):
+            for j in range(n_colunas):
+                m.set_element(i, j, lista[i][j])
+
+        return m
