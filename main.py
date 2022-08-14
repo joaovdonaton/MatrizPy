@@ -6,8 +6,9 @@ m1 = Matriz(3, 7, val=8)
 m2 = Matriz(4, 5, val_randomico=True)
 
 m2 = Matriz.operar_com(m2, lambda x: random.randint(-5, 256))
-
 print(m2)
+print(m2.remover_coluna(3))
+
 print(Matriz.tamanho_na_memoria(m2), 'bytes\n')
 #print(str(Matriz.transpor(m2))
 

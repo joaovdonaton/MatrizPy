@@ -27,3 +27,13 @@ class EixoInvalido(Exception):
 
     def __str__(self):
         return f"O eixo {self.eixo} não representa um eixo válido."
+
+
+class PosicaoInvalida(Exception):
+    def __init__(self, pos, pos_max, m):
+        self.pos = pos
+        self.pos_max = pos_max
+        self.m = f"{m.num_linhas}x{m.num_colunas}"
+
+    def __str__(self):
+        return f"O índice de posição ({self.pos}) deve ser menor que ou igual a {self.pos_max} na matriz de tamanho {self.m}"

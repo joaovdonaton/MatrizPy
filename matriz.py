@@ -1,6 +1,7 @@
 from random import random
-from erros import MatrizIncompativel, EixoInvalido
+from erros import MatrizIncompativel, EixoInvalido, PosicaoInvalida
 from sys import getsizeof
+from copy import deepcopy
 
 
 class Matriz:
@@ -42,7 +43,7 @@ class Matriz:
             raise MatrizIncompativel(self, m_linha, 2, pos=pos)
 
         m = Matriz(self.num_linhas + 1, self.num_colunas)
-        m.matriz = self.matriz.copy()
+        m.matriz = deepcopy(self.matriz)
         m.matriz.insert(pos, m_linha.matriz[0])
 
         return m
@@ -56,10 +57,40 @@ class Matriz:
             raise MatrizIncompativel(self, m_coluna, 2, pos=pos)
 
         m = Matriz(self.num_linhas, self.num_colunas+1)
-        m.matriz = self.matriz.copy()
+        m.matriz = deepcopy(self.matriz)
 
         for i in range(m.num_linhas):
             m.matriz[i].insert(pos, m_coluna.get_element(i, 0))
+
+        return m
+
+    def remover_linha(self, pos):
+        """
+        Remover a linha na posição pos (índice)
+        """
+
+        if pos > self.num_linhas-1:
+            raise PosicaoInvalida(pos, self.num_linhas-1, self)
+
+        m = Matriz(self.num_linhas-1, self.num_colunas)
+        m.matriz = deepcopy(self.matriz)
+        m.matriz.pop(pos)
+
+        return m
+
+    def remover_coluna(self, pos):
+        """
+        Remover a coluna na posição pos (indice)
+        """
+
+        if pos > self.num_colunas-1:
+            raise PosicaoInvalida(pos, self.num_colunas-1, self)
+
+        m = Matriz(self.num_linhas, self.num_colunas-1)
+        m.matriz = deepcopy(self.matriz)
+
+        for i in range(m.num_linhas):
+            m.matriz[i].pop(pos)
 
         return m
 
@@ -199,3 +230,7 @@ class Matriz:
             m_novo.set_element(0, 0, s)
 
             return m_novo
+
+    @staticmethod
+    def converter_para_matriz(lista):
+        pass
