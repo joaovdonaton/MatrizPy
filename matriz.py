@@ -126,21 +126,22 @@ class Matriz:
     def tamanho_na_memoria(m):
         """
         Método para calcular o tamanho na memória da nossa matriz (que é a lista contida no membro self.matriz)
-        O object de uma lista vazia no python usa 56bytes, para cada elemento que adicionamos isso aumenta em 8bytes.
-        As listas armazenam referências aos seus itens e não os itens em sí.
+        O object de uma lista vazia no python usa 56bytes..
+        As listas armazenam referências aos seus itens e não os itens em sí. Cada referência aumenta o tamanho da
+        lista em 8bytes, e cada elemento em sí tem seu próprio tamanho dependendo do que for (int => 28bytes)
         Otimização de memoria do python (interning) para integers entre [-5,256] pode atrapalhar o nosso cálculo, por
         isso temos que ter uma list "ids" para rastrear quais endereços de memórias se encaixam no interning e não
         contá-los mais de uma vez
         """
 
         ids = []
-        tam_total = getsizeof([])
+        tam_total = getsizeof(m.matriz)  # tamanho inicial é a list e todos as suas referências
         for i in range(m.num_linhas):
-            tam_total += 8
+            tam_total += getsizeof(m.matriz[i])  # o tamanho de todas as referências e listas da segunda dimensão
             for j in range(m.num_colunas):
                 if id(m.matriz[i][j]) in ids:
                     continue
-                tam_total += 8
+                tam_total += getsizeof(m.matriz[i][j])  # o tamanho de cada elemento individual
                 if -5 <= m.matriz[i][j] <= 256:
                     ids.append(id(m.matriz[i][j]))
 
